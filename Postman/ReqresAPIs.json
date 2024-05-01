@@ -1,0 +1,662 @@
+{
+	"info": {
+		"_postman_id": "404ca3aa-e78b-408b-881e-559069bd8814",
+		"name": "ReqresAPIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33348797"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"id is present in the response\"] = jsonData.id !== undefined && jsonData.id !== null;\r",
+							"tests[\"token is present in the response\"] = jsonData.token !== undefined && jsonData.token !== null;\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}{{Register}}",
+					"host": [
+						"{{url}}{{Register}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Unsuccessfully",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 400\"] = responseCode.code === 400;\r",
+							"\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"Missing password\"] = jsonData.error !== undefined && jsonData.error !== null;\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"sydney@fife\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}{{Register}}",
+					"host": [
+						"{{url}}{{Register}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"token is present in the response\"] = jsonData.token !== undefined && jsonData.token !== null;"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}{{Login}}",
+					"host": [
+						"{{url}}{{Login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login unsuccessfully",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 400\"] = responseCode.code === 400;\r",
+							"\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"error is present in the response\"] = jsonData.error !== undefined && jsonData.error !== null;\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"peter@klaven\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}{{Login}}",
+					"host": [
+						"{{url}}{{Login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200 or 201\"] = responseCode.code === 200 || responseCode.code === 201;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"name is present in the response\"] = jsonData.name !== undefined && jsonData.name !== null;\r",
+							"tests[\"job is present in the response\"] = jsonData.job !== undefined && jsonData.job !== null;\r",
+							"tests[\"id is present in the response\"] = jsonData.id !== undefined && jsonData.id !== null;\r",
+							"tests[\"createdAt is present in the response\"] = jsonData.createdAt !== undefined && jsonData.createdAt !== null;"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"page is present in the response\"] = jsonData.page !== undefined && jsonData.page !== null;\r",
+							"tests[\"per_page is present in the response\"] = jsonData.per_page !== undefined && jsonData.per_page !== null;\r",
+							"tests[\"total is present in the response\"] = jsonData.total !== undefined && jsonData.total !== null;\r",
+							"tests[\"total_pages is present in the response\"] = jsonData.total_pages !== undefined && jsonData.total_pages !== null;\r",
+							"tests[\"data array is not empty\"] = jsonData.data !== undefined && jsonData.data !== null && jsonData.data.length > 0;\r",
+							"tests[\"support object is not empty\"] = jsonData.support !== undefined && jsonData.support !== null;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"data array length is 6\"] = jsonData.data.length === 6;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"support url is present\"] = jsonData.support.url !== undefined && jsonData.support.url !== null;\r",
+							"tests[\"support text is present\"] = jsonData.support.text !== undefined && jsonData.support.text !== null;"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}{{ListUsers}}",
+					"host": [
+						"{{url}}{{ListUsers}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"data object is not empty\"] = jsonData.data !== undefined && jsonData.data !== null;\r",
+							"tests[\"id is present in the data object\"] = jsonData.data.id !== undefined && jsonData.data.id !== null;\r",
+							"tests[\"email is present in the data object\"] = jsonData.data.email !== undefined && jsonData.data.email !== null;\r",
+							"tests[\"first_name is present in the data object\"] = jsonData.data.first_name !== undefined && jsonData.data.first_name !== null;\r",
+							"tests[\"last_name is present in the data object\"] = jsonData.data.last_name !== undefined && jsonData.data.last_name !== null;\r",
+							"tests[\"avatar is present in the data object\"] = jsonData.data.avatar !== undefined && jsonData.data.avatar !== null;\r",
+							"tests[\"support object is not empty\"] = jsonData.support !== undefined && jsonData.support !== null;\r",
+							"tests[\"support url is present\"] = jsonData.support.url !== undefined && jsonData.support.url !== null;\r",
+							"tests[\"support text is present\"] = jsonData.support.text !== undefined && jsonData.support.text !== null;"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}{{SingleUser}}",
+					"host": [
+						"{{url}}{{SingleUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SingleUser(Notfound)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users/23",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User's Job",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200 or 201\"] = responseCode.code === 200 || responseCode.code === 201;\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"name is present in the response\"] = jsonData.name !== undefined && jsonData.name !== null;\r",
+							"tests[\"job is present in the response\"] = jsonData.job !== undefined && jsonData.job !== null;\r",
+							"tests[\"updatedAt is present in the response\"] = jsonData.updatedAt !== undefined && jsonData.updatedAt !== null;\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}{{SingleUser}}",
+					"host": [
+						"{{url}}{{SingleUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User's Job",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200 or 201\"] = responseCode.code === 200 || responseCode.code === 201;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"name is present in the response\"] = jsonData.name !== undefined && jsonData.name !== null;\r",
+							"tests[\"job is present in the response\"] = jsonData.job !== undefined && jsonData.job !== null;\r",
+							"tests[\"updatedAt is present in the response\"] = jsonData.updatedAt !== undefined && jsonData.updatedAt !== null;\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}{{SingleUser}}",
+					"host": [
+						"{{url}}{{SingleUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delayed Response",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"page is present in the response\"] = jsonData.page !== undefined && jsonData.page !== null;\r",
+							"tests[\"per_page is present in the response\"] = jsonData.per_page !== undefined && jsonData.per_page !== null;\r",
+							"tests[\"total is present in the response\"] = jsonData.total !== undefined && jsonData.total !== null;\r",
+							"tests[\"total_pages is present in the response\"] = jsonData.total_pages !== undefined && jsonData.total_pages !== null;\r",
+							"tests[\"data array is not empty\"] = jsonData.data !== undefined && jsonData.data !== null && jsonData.data.length > 0;\r",
+							"tests[\"support object is not empty\"] = jsonData.support !== undefined && jsonData.support !== null;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"data array length is 6\"] = jsonData.data.length === 6;\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/users?delay=3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "delay",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}{{SingleUser}}",
+					"host": [
+						"{{url}}{{SingleUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List <Resource>",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"page is present in the response\"] = jsonData.page !== undefined && jsonData.page !== null;\r",
+							"tests[\"per_page is present in the response\"] = jsonData.per_page !== undefined && jsonData.per_page !== null;\r",
+							"tests[\"total is present in the response\"] = jsonData.total !== undefined && jsonData.total !== null;\r",
+							"tests[\"total_pages is present in the response\"] = jsonData.total_pages !== undefined && jsonData.total_pages !== null;\r",
+							"tests[\"data array is not empty\"] = jsonData.data !== undefined && jsonData.data !== null && jsonData.data.length > 0;\r",
+							"tests[\"support object is not empty\"] = jsonData.support !== undefined && jsonData.support !== null;\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"data array length is 6\"] = jsonData.data.length === 6;\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{url}}{{ListResource}}",
+					"host": [
+						"{{url}}{{ListResource}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single Resource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Response code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"data object is not empty\"] = jsonData.data !== undefined && jsonData.data !== null;\r",
+							"tests[\"id is present in the data object\"] = jsonData.data.id !== undefined && jsonData.data.id !== null;\r",
+							"tests[\"name is present in the data object\"] = jsonData.data.name !== undefined && jsonData.data.name !== null;\r",
+							"tests[\"year is present in the data object\"] = jsonData.data.year !== undefined && jsonData.data.year !== null;\r",
+							"tests[\"color is present in the data object\"] = jsonData.data.color !== undefined && jsonData.data.color !== null;\r",
+							"tests[\"pantone_value is present in the data object\"] = jsonData.data.pantone_value !== undefined && jsonData.data.pantone_value !== null;\r",
+							"tests[\"support object is not empty\"] = jsonData.support !== undefined && jsonData.support !== null;\r",
+							"tests[\"support url is present\"] = jsonData.support.url !== undefined && jsonData.support.url !== null;\r",
+							"tests[\"support text is present\"] = jsonData.support.text !== undefined && jsonData.support.text !== null;\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}{{SingleResource}}",
+					"host": [
+						"{{url}}{{SingleResource}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single Resource(Notfound)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}{{ListResource}}/23",
+					"host": [
+						"{{url}}{{ListResource}}"
+					],
+					"path": [
+						"23"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
